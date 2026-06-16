@@ -1,0 +1,8 @@
+{
+  "median": 7.5859375,
+  "q25": 5.49609375,
+  "q75": 9.546875,
+  "iqr": 4.05078125,
+  "n_images_sampled": 1250,
+  "note": "global IQR norm over a fair train-image sample across all redshifts"
+}

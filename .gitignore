@@ -1,0 +1,43 @@
+# ── Python ────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ── Virtual environments ──────────────────────────────────────────────
+.venv/
+venv/
+env/
+.conda/
+
+# ── Jupyter / editor / OS junk ────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*~
+*.swp
+.vscode/
+.idea/
+
+# ── Hugging Face Hub cache ────────────────────────────────────────────
+.cache/
+*/.cache/huggingface/
+
+# ── Tutorial data & model checkpoints ─────────────────────────────────
+# Distributed via the Hugging Face Hub (see sim/hub.py) and downloaded
+# on demand into these directories — never commit them to git.
+data/*.npz
+checkpoints/
+
+# Keep the small, in-repo config files (not ignored above):
+#   data/img_norm.json, assets/, sim/, aion/, the tutorial notebooks.
+
+# ── Misc generated / local files ──────────────────────────────────────
+*.log
+*.out
+*.truncated.bak
+.claude/

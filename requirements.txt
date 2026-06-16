@@ -1,0 +1,10 @@
+# Gal4M tutorial dependencies
+torch>=2.1
+numpy
+scipy
+einops
+jaxtyping
+matplotlib
+scikit-learn
+huggingface_hub
+jupyterlab
