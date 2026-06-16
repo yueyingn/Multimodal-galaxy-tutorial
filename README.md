@@ -1,8 +1,8 @@
-# Gal4M — Multimodal Learning for Galaxies
+# Multimodal Learning for Galaxies
 
-A hands-on, self-contained tutorial on **multimodal representation learning for
+This is a tutorial for **multimodal representation learning for
 galaxies**. Each galaxy in a cosmological simulation comes with many different
-"views" — an image, a star-formation history, radial density profiles, and a
+"views" — for example, a photometric spatial image, a star-formation history, radial density profiles, and a
 handful of physical scalars. This tutorial teaches two complementary ways to
 learn a *joint* model over all of them, using galaxies from the
 [IllustrisTNG](https://www.tng-project.org/) **TNG-100** simulation:
@@ -16,13 +16,6 @@ learn a *joint* model over all of them, using galaxies from the
    in a shared embedding space — the idea behind
    [CLIP](https://arxiv.org/abs/2103.00020) / [SigLIP](https://arxiv.org/abs/2303.15343)
    (Tutorial 3).
-
-![Tokenized multimodal learning](assets/Image-tokenized-multimodal-learning.png)
-
-> The figure above is the generative pipeline at a glance: every modality is
-> **tokenized** (left), a **masked multimodal transformer** learns the joint
-> distribution over the token streams (centre), and at inference we condition on
-> what we know and **predict** what we want, with uncertainties (right).
 
 ---
 
@@ -51,14 +44,19 @@ No prior astronomy is required — every modality is introduced in Tutorial 0.
 
 ## The two approaches
 
+![Tokenized multimodal learning](assets/Image-tokenized-multimodal-learning.png)
+
+> The figure above is the generative pipeline at a glance: every modality is
+> **tokenized** (left), a **masked multimodal transformer** learns the joint
+> distribution over the token streams (centre), and at inference we condition on
+> what we know and **predict** what we want, with uncertainties (right).
+
 ### Generative: tokenize, then model the tokens
 
 A **codec** maps one modality to a short sequence of integer tokens and back. The
 image uses a convolutional VQ auto-encoder (MagVit + FSQ); the 1-D curves use a
 ConvNeXt VQ auto-encoder (+ LFQ); scalars use a quantile-binning quantizer with
 no neural net at all.
-
-![Codec tokenization](assets/Image-codec.png)
 
 A single transformer is then trained with a **masking game**: each step, the
 modalities are randomly split into a visible "encoder" set and a hidden "decoder"
