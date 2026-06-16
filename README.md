@@ -1,11 +1,12 @@
 # Multimodal Learning for Galaxies
 
-This is a tutorial for **multimodal representation learning for
-galaxies**. Each galaxy in a cosmological simulation comes with many different
-"views" — for example, a photometric spatial image, a star-formation history, radial density profiles, and a
-handful of physical scalars. This tutorial teaches two complementary ways to
-learn a *joint* model over all of them, using galaxies from the
-[IllustrisTNG](https://www.tng-project.org/) **TNG-100** simulation:
+A hands-on tutorial on **multimodal representation learning for galaxies**. Each
+galaxy in a cosmological simulation comes with many different "views" — a
+photometric image, a star-formation history, radial density profiles, and a
+handful of physical scalars. Using galaxies from the
+[IllustrisTNG](https://www.tng-project.org/) **TNG-100** simulation, this
+tutorial teaches two complementary ways to learn a *joint* model over all of
+them:
 
 1. **Generative — masked multimodal token modeling.** Tokenize every modality
    into discrete integers, then train a single
@@ -16,6 +17,8 @@ learn a *joint* model over all of them, using galaxies from the
    in a shared embedding space — the idea behind
    [CLIP](https://arxiv.org/abs/2103.00020) / [SigLIP](https://arxiv.org/abs/2303.15343)
    (Tutorial 3).
+
+No prior astronomy is required — every modality is introduced in Tutorial 0.
 
 ---
 
@@ -30,8 +33,6 @@ learn a *joint* model over all of them, using galaxies from the
   embedding space, and how to evaluate it with **retrieval** and a **linear
   probe** (Tutorial 3).
 
-No prior astronomy is required — every modality is introduced in Tutorial 0.
-
 ## The galaxy modalities
 
 | Modality | Array | Physical meaning |
@@ -44,31 +45,29 @@ No prior astronomy is required — every modality is introduced in Tutorial 0.
 
 ## The two approaches
 
-![Tokenized multimodal learning](assets/Image-tokenized-multimodal-learning.png)
+### Generative: tokenize, then predict any modality from any other
 
-> The figure above is the generative pipeline at a glance: every modality is
-> **tokenized** (left), a **masked multimodal transformer** learns the joint
-> distribution over the token streams (centre), and at inference we condition on
-> what we know and **predict** what we want, with uncertainties (right).
-
-### Generative: tokenize, then model the tokens
-
-A **codec** maps one modality to a short sequence of integer tokens and back. The
-image uses a convolutional VQ auto-encoder (MagVit + FSQ); the 1-D curves use a
-ConvNeXt VQ auto-encoder (+ LFQ); scalars use a quantile-binning quantizer with
-no neural net at all.
-
-A single transformer is then trained with a **masking game**: each step, the
-modalities are randomly split into a visible "encoder" set and a hidden "decoder"
+First, a **codec** per modality maps it to a short sequence of integer tokens and
+back — images and 1-D curves use small auto-encoders, scalars use simple binning.
+A single transformer is then trained with a **masking game**: at each step the
+modalities are randomly split into a visible "context" set and a hidden "target"
 set the model must predict. Because the split is random, one network learns
 *every* conditional `p(targets | context)` at once — so at inference you simply
-fix the split (e.g. image → everything else).
+fix the split (e.g. image → everything else) and read off predictions with
+calibrated uncertainties.
+
+![Tokenized multimodal learning](assets/Image-tokenized-multimodal-learning.png)
+
+> The generative pipeline at a glance: every modality is **tokenized** (left), a
+> **masked multimodal transformer** learns the joint distribution over the token
+> streams (centre), and at inference we condition on what we know and **predict**
+> what we want (right).
 
 ### Contrastive: align two views in a shared space
 
 Instead of generating tokens, contrastive learning trains an **image encoder**
-and an **SFH encoder** so that the two views of the same galaxy have nearby
-embeddings, and mismatched pairs are pushed apart. The result is a metric space
+and an **SFH encoder** so that the two views of the *same* galaxy have nearby
+embeddings, while mismatched pairs are pushed apart. The result is a metric space
 good for **cross-modal retrieval** and as a frozen **downstream feature**.
 
 ![Contrastive alignment](assets/Image-Contrastive.png)
