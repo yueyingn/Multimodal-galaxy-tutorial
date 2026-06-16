@@ -33,6 +33,24 @@ No prior astronomy is required — every modality is introduced in Tutorial 0.
   embedding space, and how to evaluate it with **retrieval** and a **linear
   probe** (Tutorial 3).
 
+## Setup
+
+```bash
+pip install -r requirements.txt
+jupyter lab        # then open the notebooks in order
+```
+
+Tutorial 0 runs anywhere (just plotting). The training cells in Tutorials 1–3
+need a GPU, but every notebook ships **pre-trained checkpoints** and runs in a
+fast **load-and-evaluate** pass by default — so you can read and run them on a
+laptop. The `GAL4M_TRAIN` environment variable switches between the two passes:
+
+* unset (default) — **load** the published checkpoints and render the results;
+* `GAL4M_TRAIN=1` — run the **training** code inline (GPU recommended).
+
+The data and checkpoints download automatically on first use; see
+[Data and checkpoints](#data-and-checkpoints-hugging-face-hub) for details.
+
 ## The galaxy modalities
 
 | Modality | Array | Physical meaning |
@@ -82,21 +100,6 @@ Work through them in order:
 | 1 | [`tutorial-1-codecs.ipynb`](tutorial-1-codecs.ipynb) | Choose and train a codec per modality; tokenize and reconstruct each modality. |
 | 2 | [`tutorial-2-transformer.ipynb`](tutorial-2-transformer.ipynb) | Train the any-to-any multimodal transformer; run image → SFH / profiles / scalars inference with uncertainties. |
 | 3 | [`tutorial-3-contrastive-learning.ipynb`](tutorial-3-contrastive-learning.ipynb) | A CLIP/SigLIP model aligning images and star-formation histories; retrieval and a downstream probe. Self-contained. |
-
-## Setup
-
-```bash
-pip install -r requirements.txt
-jupyter lab        # then open the notebooks in order
-```
-
-Tutorial 0 runs anywhere (just plotting). The training cells in Tutorials 1–3
-need a GPU, but every notebook ships **pre-trained checkpoints** and runs in a
-fast **load-and-evaluate** pass by default — so you can read and run them on a
-laptop. The `GAL4M_TRAIN` environment variable switches between the two passes:
-
-* unset (default) — **load** the published checkpoints and render the results;
-* `GAL4M_TRAIN=1` — run the **training** code inline (GPU recommended).
 
 ## Data and checkpoints (Hugging Face Hub)
 
